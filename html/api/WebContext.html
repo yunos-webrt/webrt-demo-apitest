@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js"></script>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+	<a href="../">Back</a>
+	<h1>WebContext Test</h1>
+	action:<input type="text" id = "action" size = "25" /></br>
+	package:<input type="text" id = "package" size = "25" /></br>
+	category:<input type="text" id = "category" size = "25" /></br>
+	url:<input type="text" id = "url" size = "30" /></br>
+    <button id="sendBroadcastnormal">sendBroadcastnormal</button>
+	<button id="startActivitynormal">startActivitynormal</button>
+	<button id="action_Dail">action_Dail</button>
+	<button id="package_browser">package_browser</button>
+	<button id="package_calendar">package_calendar</button>
+	<button id="package_contacts">package_contacts</button>
+	<div id="outPut"></div>
+</body>
+
+<script type="text/javascript">
+var 
+	sendBroadcastnormal = document.getElementById("sendBroadcastnormal"),
+	startActivitynormal = document.getElementById("startActivitynormal"),
+	action_Dail = document.getElementById("action_Dail"),
+	package_browser = document.getElementById("package_browser"),
+	package_calendar = document.getElementById("package_calendar"),
+	package_contacts = document.getElementById("package_contacts"),
+	context = navigator.tglContext;
+
+function onSuccess() {
+	log("start Intent Success!");
+}
+
+function onFailure() {
+	log("start Intent Failure!");
+}
+
+
+
+
+sendBroadcastnormal.addEventListener("click", function() {
+	var intent = context.createIntent();
+	intent.action = document.getElementById("action").value;
+	intent.package = document.getElementById("package").value;
+	intent.category = document.getElementById("category").value;
+	intent.url = document.getElementById("url").value;
+	intent.putExtra("aa", "bb");
+	alert(intent.action);
+	context.sendBroadcast(intent);
+});
+
+
+startActivitynormal.addEventListener("click", function() {
+	var intent = context.createIntent();
+	intent.action = document.getElementById("action").value;
+	intent.package = document.getElementById("package").value;
+	intent.category = document.getElementById("category").value;
+	intent.url = document.getElementById("url").value;
+	intent.putExtra("aa", "bb");
+	context.startActivity(intent,onSuccess,onFailure);
+});
+action_Dail.addEventListener("click", function() {
+	var intent = context.createIntent();
+	intent.action = "android.intent.action.DIAL";
+	context.startActivity(intent,onSuccess,onFailure);
+});
+
+package_browser.addEventListener("click", function() {
+	var intent = context.createIntent();
+	intent.action = 'android.intent.action.MAIN';
+	intent.package = 'com.android.browser';
+	intent.category = 'android.intent.category.LAUNCHER';
+	context.startActivity(intent,onSuccess,onFailure);
+});
+
+package_calendar.addEventListener("click", function() {
+	var intent = context.createIntent();
+	intent.package = 'com.android.calendar';
+	context.startActivity(intent,onSuccess,onFailure);
+});
+
+package_contacts.addEventListener("click", function() {
+	var intent = context.createIntent();
+	intent.package = 'com.yunos.alicontacts';
+	context.startActivity(intent,onSuccess,onFailure);
+});
+
+
+</script>
+</html>

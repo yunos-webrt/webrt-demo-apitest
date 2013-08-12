@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js"></script>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+	<a href="../">Back</a>
+  <h1>YunOSInfo Test</h1>
+  <button id="appName">appName</button>
+  <button id="appVersion">appVersion</button>
+  <button id="userAgent">userAgent</button>
+  <button id="product">product</button>
+  <button id="productSub">productSub</button>
+  <button id="vendor">vendor</button>
+  <button id="vendorSub">vendorSub</button>
+  <div id="outPut"></div>
+</body>
+<script type="text/javascript">
+var appName = document.getElementById("appName")
+  , appVersion = document.getElementById("appVersion")
+  , userAgent = document.getElementById("userAgent")
+  , product = document.getElementById("product")
+  , productSub = document.getElementById("productSub")
+  , vendor = document.getElementById("vendor")
+  , vendorSub = document.getElementById("vendorSub");
+appName.addEventListener("click", function() {
+	log('appName: ' + navigator.appName);
+});
+appVersion.addEventListener("click", function() {
+	log('appVersion: '+navigator.appVersion);
+});
+userAgent.addEventListener("click", function() {
+	log('userAgent: '+navigator.userAgent);
+});
+product.addEventListener("click", function() {
+	log('product: '+navigator.product);
+});
+productSub.addEventListener("click", function() {
+	log('productSub: '+navigator.productSub);
+});
+vendor.addEventListener("click", function() {
+	log('vendor: '+navigator.vendor);
+});
+vendorSub.addEventListener("click", function() {
+	log('vendorSub: '+navigator.vendorSub);
+});
+
+</script>
+</html>

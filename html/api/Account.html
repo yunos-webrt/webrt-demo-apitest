@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js"></script>
+  <link href="main.css" rel="stylesheet">
+  <script src="goog/closure/goog/base.js"></script>
+  <script>
+    goog.require('goog.crypt.base64');
+  </script>
+</head>
+<body>
+	<a href="../">Back</a>
+  <h1>Account Test</h1>
+  <br>appkey:<input type="text" id = "appkey" size = "20" value = "Ycalllogn0Sm7Kfy"/></br>
+  <button id="peekSign">peekSign</button>
+  <button id="getUserInfo">getUserInfo</button>
+  <button id="getSign">getSign</button>
+  <div id="outPut"></div>
+</body>
+<script type="text/javascript">
+var pim = navigator.tglPim
+  ,peekSign = document.getElementById("peekSign")
+  ,getUserInfo = document.getElementById("getUserInfo")
+  ,getSign = document.getElementById("getSign");
+
+function successCallback(sign) {
+	var parts = [],
+	token = "",
+	kp = "",
+	loginId = "";
+	if (sign != " ") {
+		parts = sign.split(":");
+		token = parts[0];
+		kp = parts[1];
+		loginId = parts[2];
+		log("token = "+token+"\nkp = "+kp+"\nloginId = "+loginId);
+	}
+}
+function errorCallback(error) {
+	log("getSign error code = "+error.code );
+}
+
+peekSign.addEventListener("click", function() {
+	var appkey = document.getElementById("appkey").value;
+	sign = pim.peekSign(appkey);
+	var parts = [],
+	token = "",
+	kp = "",
+	loginId = "";
+	if (sign != " ") {
+		parts = sign.split(":");
+		token = parts[0];
+		kp = parts[1];
+		loginId = parts[2];
+		log("token = "+token+"\nkp = "+kp+"\nloginId = "+loginId);
+	}
+	else{
+		log("peekSign error");
+	}
+});
+getUserInfo.addEventListener("click", function() {
+	var info = pim.getUserInfo();
+	log("kp = "+info.kp+"loginId = "+info.loginId+"site = "+info.site+"state = "+info.state)
+});
+
+
+getSign.addEventListener("click", function() {
+	var appkey = document.getElementById("appkey").value;
+	pim.getSign(appkey, successCallback, errorCallback);
+});
+</script>
+</html>

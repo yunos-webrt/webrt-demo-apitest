@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js"></script>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+	<a href="../">Back</a>
+	<h1>Notification Test</h1>
+	packageSelf:<input type="text" id = "packageSelf" size = "20" value='com.yunos.testapp'/></br>
+	title:<input type="text" id = "title" size = "5" />
+	body:<input type="text" id = "body" size = "15" />
+	actionUrl:<input type="text" id = "actionUrl" size = "20" />
+	soundUrl:<input type="text" id = "soundUrl" size = "15" />
+	tag:<input type="text" id = "tag" size = "5" /></br>
+	ALL:<input type="text" id="ALL" size = "1">
+	SOUND:<input type="text" id="SOUND" size = "1"></br>
+	VIBRATE:<input type="text" id="VIBRATE" size = "1">
+	LIGHTS:<input type="text" id="LIGHTS" size = "1"></br>
+	SHOW_LIGHTS:<input type="text" id="SHOW_LIGHTS" size = "1">
+	ONGOING_EVENT:<input type="text" id="ONGOING_EVENT" size = "1">
+	INSISTENT:<input type="text" id="INSISTENT" size = "1">
+	ONLY_ALERT_ONCE:<input type="text" id="ONLY_ALERT_ONCE" size = "1">
+	AUTO_CANCEL:<input type="text" id="AUTO_CANCEL" size = "1">
+	NO_CLEAR:<input type="text" id="NO_CLEAR" size = "1">
+	FOREGROUND_SERVICE:<input type="text" id="FOREGROUND_SERVICE" size = "1"></br>
+	<button id="sendNotification">sendNotification</button>
+	<button id="notificationPriority">notificationPriority</button>
+	<button id="recoverNotification">recoverNotification</button>
+	<button id="deleteNotification">deleteNotification</button>
+	<button id="cancelAllNotification">cancelAllNotification</button>
+	<div id="outPut"></div>
+</body>
+<script type="text/javascript">
+	var SHOW_LIGHTS = 0x00000001;
+	var INSISTENT = 0x00000004;
+	var ONLY_ALERT_ONCE = 0x00000008;
+	var AUTO_CANCEL = 0x00000010;
+	var NO_CLEAR = 0x00000020;
+	var notificationManager = navigator.tglNotificationManager;
+	 sendNotification = document.getElementById("sendNotification")
+		, notificationPriority = document.getElementById("notificationPriority")
+		, recoverNotification = document.getElementById("recoverNotification")
+		, deleteNotification = document.getElementById("deleteNotification")
+		, cancelAllNotification = document.getElementById("cancelAllNotification")
+		, i = 0;
+
+	sendNotification.addEventListener("click", function() {	
+		var notification = notificationManager.createNotification();
+		var packageSelf = document.getElementById("packageSelf").value;
+		var title = document.getElementById("title").value;
+		var body = document.getElementById("body").value;
+		var actionUrl = document.getElementById("actionUrl").value;
+		var soundUrl = document.getElementById("soundUrl").value;
+		var defaults1 = document.getElementById("ALL").value;
+		var defaults2 = document.getElementById("SOUND").value;
+		var defaults3 = document.getElementById("VIBRATE").value;
+		var defaults4 = document.getElementById("LIGHTS").value;
+		var flag1 = document.getElementById("SHOW_LIGHTS").value;
+		var flag2 = document.getElementById("ONGOING_EVENT").value;
+		var flag3 = document.getElementById("INSISTENT").value;
+		var flag4 = document.getElementById("ONLY_ALERT_ONCE").value;
+		var flag5 = document.getElementById("AUTO_CANCEL").value;
+		var flag6 = document.getElementById("NO_CLEAR").value;
+		var flag7 = document.getElementById("FOREGROUND_SERVICE").value;
+		i=i+1;
+		notification.title = title;
+		notification.body = body;
+		notification.actionUrl = actionUrl;
+		var date = new Date();
+		notification.when = date.getTime();
+		notification.number = 5;
+		notification.soundUrl = soundUrl;
+		notification.vibrate = [1000,1000,2000,500,500];
+		notification.defaults = 0;
+		notification.flag = 0;
+		if(defaults1){
+			notification.defaults |= notification.DEFAULT_ALL;
+		}
+		if(defaults2){
+			notification.defaults |= notification.DEFAULT_SOUND;
+		}
+		if(defaults3){
+			notification.defaults |= notification.DEFAULT_VIBRATE;
+		}
+		if(defaults4){
+			notification.defaults |= notification.DEFAULT_LIGHTS;
+		}
+		if(flag1){
+			notification.flag |= notification.FLAG_SHOW_LIGHTS;
+			notification.ledARGB = 0xFF0000;
+			notification.ledOnMS = 100;
+			notification.ledOffMS = 100;
+		}
+		if(flag2){
+			notification.flag |= notification.FLAG_ONGOING_EVENT;
+		}
+		if(flag3){
+			notification.flag |= notification.FLAG_INSISTENT;
+		}
+		if(flag4){
+			alert('test');
+			notification.flag |= notification.FLAG_ONLY_ALERT_ONCE;
+			i=i-1;
+		}
+		if(flag5){
+			notification.flag |= notification.FLAG_AUTO_CANCEL;
+		}
+		if(flag6){
+			notification.flag |= notification.FLAG_NO_CLEAR;
+		}
+		if(flag7){
+			notification.flag |= notification.FLAG_FOREGROUND_SERVICE;
+		}
+		alert(notification.flag);
+		notificationManager.notify(packageSelf,"show1", i, notification);
+	});
+	notificationPriority.addEventListener("click", function() {
+		var notification1 = notificationManager.createNotification();
+		var notification2 = notificationManager.createNotification();
+		var notification3 = notificationManager.createNotification();
+		var notification4 = notificationManager.createNotification();
+		var notification5 = notificationManager.createNotification();
+		notification1.title = 'PRIORITY_MIN';
+		notification1.body = 'notificationPriority test';
+		notification1.priority = notification1.PRIORITY_MIN;
+		notification2.title = 'PRIORITY_LOW';
+		notification2.body = 'notificationPriority test';
+		notification2.priority = notification2.PRIORITY_LOW;
+		notification3.title = 'PRIORITY_DEFAULT';
+		notification3.body = 'notificationPriority test';
+		notification3.priority = notification3.PRIORITY_DEFAULT ;
+		notification4.title = 'PRIORITY_HIGH';
+		notification4.body = 'notificationPriority test';
+		notification4.priority = notification4.PRIORITY_HIGH;
+		notification5.title = 'PRIORITY_MAX';
+		notification5.body = 'notificationPriority test';
+		notification5.priority = notification5.PRIORITY_MAX;
+		notificationManager.notify('com.yunos.test',"show2", 1, notification1);
+		notificationManager.notify('com.yunos.test',"show2", 2, notification2);
+		notificationManager.notify('com.yunos.test',"show2", 3, notification3);
+		notificationManager.notify('com.yunos.test',"show2", 4, notification4);
+		notificationManager.notify('com.yunos.test',"show2", 5, notification5);
+	});
+	recoverNotification.addEventListener("click", function() {
+		var notification = notificationManager.createNotification();
+		notification.title = 'recoverNotification';
+		notification.body = 'recoverNotifications test';
+		notification.actionUrl = 'api/img/network.jpg';
+		notificationManager.notify('com.yunos.test',"show1", 1, notification);
+	});
+	deleteNotification.addEventListener("click", function() {
+		var packageSelf = document.getElementById("packageSelf").value;
+		var tag = document.getElementById("tag").value;
+		alert(tag);
+		notificationManager.cancel(packageSelf,tag, 1);
+	});
+	cancelAllNotification.addEventListener("click", function() {
+		var packageSelf = document.getElementById("packageSelf").value;
+		notificationManager.cancelAll(packageSelf);
+		i=0
+	});
+
+</script>
+</html>

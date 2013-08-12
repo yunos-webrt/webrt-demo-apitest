@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js"></script>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+	<a href="../">Back</a>
+  <h1>Device Test</h1>
+  <button id="getIMEI">getIMEI</button>
+  <button id="getUUID">getUUID</button>
+  <button id="getModel">getModel</button>
+  <div id="outPut"></div>
+</body>
+<script type="text/javascript">
+var getIMEI = document.getElementById("getIMEI")
+  , getUUID = document.getElementById("getUUID")
+  , getModel = document.getElementById("getModel");
+
+});
+
+getIMEI.addEventListener("click", function() {
+	log('IMEI: '+tglDevice.imei);
+});
+getUUID.addEventListener("click", function() {
+	log('UUID: '+tglDevice.uuid);
+});
+
+getModel.addEventListener("click", function() {
+	log('Model: '+tglDevice.model);
+});
+</script>
+</html>

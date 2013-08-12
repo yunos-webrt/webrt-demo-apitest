@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js" charset="utf-8"></script>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+	<a href="../">Back</a>
+  <h2>PackageManager Test</h2>
+  appUrl:<input type="text" id = "appUrl" size = "35" /></br>
+  packagename:<input type="text" id = "packagename" size = "35" /></br>
+  flags:<input type="text" id = "flags" size = "10" /></br>
+  <button id="install">install</button>
+  <button id="uninstall">uninstall</button>
+  <button id="checkInstalled">checkInstalled</button>
+  <button id="getself">getself</button>
+  <button id="getInstalledApps">getInstalledApps</button>
+  <button id="getAppIcon">getAppIcon</button>
+  <button id="getPackageSizeInfo">getPackageSizeInfo</button>
+  <button id="getLaunchIntentForPackage">getLaunchIntentForPackage</button>
+  <div id="outPut"></div>
+  <div id="listDiv"></div>
+</body>
+<script type="text/javascript" charset="utf-8">
+var install = document.getElementById("install")
+  , uninstall = document.getElementById("uninstall")
+  , checkInstalled = document.getElementById("checkInstalled")
+  , getself = document.getElementById("getself")
+  , getInstalledApps = document.getElementById("getInstalledApps")
+  , getAppIcon = document.getElementById("getAppIcon")
+  , getPackageSizeInfo = document.getElementById("getPackageSizeInfo")
+  , getLaunchIntentForPackage = document.getElementById("getLaunchIntentForPackage");
+function onInstalled(error, manifest) {// onInstalled
+	if(error){
+		log(error.message+' errorcode: '+error.code);
+		switch (error.code){
+		case error.PARAMETER_ERROR:
+			log(' :PARAMETER_ERROR');
+			break;
+		case error.NETWORK_ERROR:
+			log(' :NETWORK_ERROR');
+			break;
+		case error.PACKAGE_ERROR:
+			log(' :PACKAGE_ERROR');
+			break;
+		case error.IO_ERROR:
+			log(' :IO_ERROR');
+			break;
+		case error.UNKNOWN_ERROR:
+			log(' :UNKNOWN_ERROR');
+			break;
+		default:
+			break;
+		}
+		return;
+	}
+	if (manifest == null) {
+		log("error because: " + error);
+	} 
+	else {
+		log('app is installed!version:' + manifest.version + ';versionCode: ' + manifest.versionCode + ';installTime: ' + manifest.installTime + ';updateTime: ' + manifest.updateTime + ';package: ' + manifest.package + ';type: ' + manifest.applicationInfo.type + ';name: ' + manifest.applicationInfo.name + ';flags: ' + manifest.applicationInfo.flags + ';launchUrl: ' + manifest.applicationInfo.launchUrl);
+	}
+}
+function onProgressChange(event) { // onProgressChange
+	var type = event.type;
+	var progress = Math.round((event.current / event.max)*100);
+	switch(type) {
+		case event.DOWNLOADING:
+			log("Downing: " + progress +'%');
+			break;
+		case event.INSTALLING:
+			log("Installing: " + progress +'%');
+			break;
+		default:
+			break;
+	}
+}
+function onUninstalled(error) {
+	if(error){
+		log(error.message+' errorcode: '+error.code);
+		switch (error.code){
+		case error.PARAMETER_ERROR:
+			log(' :PARAMETER_ERROR');
+			break;
+		case error.NETWORK_ERROR:
+			log(' :NETWORK_ERROR');
+			break;
+		case error.PACKAGE_ERROR:
+			log(' :PACKAGE_ERROR');
+			break;
+		case error.IO_ERROR:
+			log(' :IO_ERROR');
+			break;
+		case error.UNKNOWN_ERROR:
+			log(' :UNKNOWN_ERROR');
+			break;
+		default:
+			break;
+		}
+		return;
+	}
+	else {
+		log("uninstall successed!");
+	}
+}
+function onCheckInstalled(isInstalled) {
+	if (isInstalled) {
+		log("The app is installed.");
+	} 
+	else {
+		log("The app isn't installed.");
+	};
+}
+function OnGotAppInfo(error, manifest) {
+	if (error) {
+		log(error.message);
+		return;
+	}
+	else {
+		var div = document.getElementById("listDiv");
+		var blob = manifest.icon;
+		var image = document.createElement("img");
+		var url = window.URL.createObjectURL(blob);
+		image.src = url;
+		div.appendChild(image);
+		log('AppInfo=version:' + manifest.version + ';versionCode: ' + manifest.versionCode + ';installTime: ' + manifest.installTime + ';updateTime: ' + manifest.updateTime + ';package: ' + manifest.package + ';type: ' + manifest.applicationInfo.type + ';name: ' + manifest.applicationInfo.name + ';flags: ' + manifest.applicationInfo.flags + ';launchUrl: ' + manifest.applicationInfo.launchUrl);
+	}
+
+}
+function onInstalledApps(error, installedApps) {
+	if (error) {
+		log(error.message);
+		return;
+	}
+	var length = installedApps.length;
+	//系统包集合
+	var sysPkg = [];
+	//目前这些宏定义还没有到入到js对象属性，请参宏后面的常量值
+	var FLAG_SYSTEM = 0x00000001;
+	var div = document.getElementById("listDiv");
+	var i = 0;
+	for (i = 0; i < length; ++i) {
+		var item = installedApps.item(i);
+		if ((item.applicationInfo.flags & FLAG_SYSTEM) > 0) {
+			sysPkg.push(item);
+		}
+		if (item.icon) {
+			var blob = item.icon;
+			var image = document.createElement("img");
+			var url = window.URL.createObjectURL(blob);
+			image.src = url;
+			div.appendChild(image);
+		}
+		var span = document.createElement("span");
+		var s ="package:" + item.package;
+		span.textContent = s;
+		div.appendChild(span);
+		div.appendChild(document.createElement("br"));
+		span = document.createElement("span");
+		s = "name:" + item.applicationInfo.name;
+		span.textContent = s;
+		div.appendChild(span);
+		div.appendChild(document.createElement("br"));
+		var span = document.createElement("span");
+		var s ="flags:" + item.applicationInfo.flags;
+		span.textContent = s;
+		div.appendChild(span);
+		div.appendChild(document.createElement("br"));
+		span = document.createElement("span");
+		s = "version:" + item.version;
+		span.textContent = s;
+		div.appendChild(span);
+		div.appendChild(document.createElement("br"));
+	}
+}
+function onTakenAppIcon(error,blogIcon) {
+	if (error) {
+		log(error.message);
+		return;
+	}
+	else {
+		var div = document.getElementById("listDiv");
+		var image = document.createElement("img");
+		var url = window.URL.createObjectURL(blogIcon);
+		image.src = url;
+		div.appendChild(image);
+	}
+}
+function onPackageSize(error,stat) {
+	if (error) {
+		log(error.message);
+		return;
+	}
+	else {
+		log('packageName:' + stat.packageName + ';codeSize: ' + stat.codeSize + ';dataSize: ' + stat.dataSize + ';cacheSize: ' + stat.cacheSize + ';externalCodeSize: ' + stat.externalCodeSize + ';externalDataSize: ' + stat.externalDataSize + ';externalCacheSize: ' + stat.externalCacheSize + ';externalMediaSize: ' + stat.externalMediaSize + ';externalObbSize: ' + stat.externalObbSize);
+	}
+}
+function onLaunchIntent(error,launchintent) {
+	if (error) {
+		log(error.message);
+		return;
+	}
+	else {
+		log('action:' + launchintent.action + ';type: ' + launchintent.type + ';package: ' + launchintent.package + ';category: ' + launchintent.category + ';data: ' + launchintent.data);
+		navigator.tglContext.startActivity(launchintent);
+	}
+}
+install.addEventListener("click", function() {
+	var appUrl = document.getElementById("appUrl").value;
+	navigator.tglApps.install(appUrl,onInstalled,onProgressChange);
+});
+uninstall.addEventListener("click", function() {
+	var packagename = document.getElementById("packagename").value;
+	navigator.tglApps.uninstall(packagename,onUninstalled);
+});
+checkInstalled.addEventListener("click", function() {
+	var packagename = document.getElementById("packagename").value;
+	navigator.tglApps.checkInstalled(packagename,onCheckInstalled);
+});
+getself.addEventListener("click", function() {
+	var packagename = document.getElementById("packagename").value;
+	navigator.tglApps.getself(packagename,OnGotAppInfo);
+});
+getInstalledApps.addEventListener("click", function() {
+	var flags = document.getElementById("flags").value;
+	navigator.tglApps.getInstalledApps(flags,onInstalledApps);
+});
+getAppIcon.addEventListener("click", function() {
+	var packagename = document.getElementById("packagename").value;
+	navigator.tglApps.getAppIcon(packagename,onTakenAppIcon);
+});
+getPackageSizeInfo.addEventListener("click", function() {
+	var packagename = document.getElementById("packagename").value;
+	navigator.tglApps.getPackageSizeInfo(packagename,onPackageSize);
+});
+getLaunchIntentForPackage.addEventListener("click", function() {
+	var packagename = document.getElementById("packagename").value;
+	navigator.tglApps.getLaunchIntentForPackage(packagename,onLaunchIntent);
+});
+
+</script>
+</html>

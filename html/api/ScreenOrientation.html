@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js"></script>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+	<a href="../">Back</a>
+	<h1>ScreenOrientation Test</h1>
+	<button id="lockOrientation_portrait">lockOrientation_portrait</button>
+	<button id="lockOrientation_portraitprimary">lockOrientation_portraitprimary</button>
+	<button id="lockOrientation_portraitsecondary">lockOrientation_portraitsecondary</button>
+	<button id="lockOrientation_landscape">lockOrientation_landscape</button>
+	<button id="lockOrientation_landscapeprimary">lockOrientation_landscapeprimary</button>
+	<button id="lockOrientation_landscapesecondary">lockOrientation_landscapesecondary</button>
+	<button id="lockOrientation_Landscape">lockOrientation_Landscape</button>
+	<button id="unlockOrientation">unlockOrientation</button>
+	<div id="outPut"></div>
+</body>
+<script type="text/javascript">
+var a=new Array()
+  ,lockOrientation_portrait = document.getElementById("lockOrientation_portrait")
+  , lockOrientation_portraitprimary = document.getElementById("lockOrientation_portraitprimary")
+  , lockOrientation_portraitsecondary = document.getElementById("lockOrientation_portraitsecondary")
+  , lockOrientation_landscape = document.getElementById("lockOrientation_landscape")
+  , lockOrientation_landscapeprimary = document.getElementById("lockOrientation_landscapeprimary")
+  , lockOrientation_landscapesecondary = document.getElementById("lockOrientation_landscapesecondary")
+  , lockOrientation_Landscape = document.getElementById("lockOrientation_Landscape")
+  , unlockOrientation = document.getElementById("unlockOrientation");
+lockOrientation_portrait.addEventListener("click", function() {
+	log(screen.lockOrientation("portrait"));
+});
+lockOrientation_portraitprimary.addEventListener("click", function() {
+	log(screen.lockOrientation("portrait-primary"));
+});
+lockOrientation_portraitsecondary.addEventListener("click", function() {
+	log(screen.lockOrientation("portrait-secondary"));
+});
+lockOrientation_landscape.addEventListener("click", function() {
+	log(screen.lockOrientation("landscape"));
+});
+lockOrientation_landscapeprimary.addEventListener("click", function() {
+	log(screen.lockOrientation("landscape-primary"));
+});
+lockOrientation_landscapesecondary.addEventListener("click", function() {
+	log(screen.lockOrientation("landscape-secondary"));
+});
+
+lockOrientation_Landscape.addEventListener("click", function() {
+	log(screen.lockOrientation("Landscape"));
+});
+
+unlockOrientation.addEventListener("click", function() {
+	screen.unlockOrientation();
+});
+
+</script>
+</html>

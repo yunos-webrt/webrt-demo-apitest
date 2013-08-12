@@ -1,0 +1,55 @@
+{
+    "name": "API Test",
+    "version": "1.0.0",
+    "type": "certified",
+    "package": "com.yunos.testapp",
+    "minimum_runtime_version": "0.0.1",
+    "description": "test app",
+   "icons": {
+        "48": "/img/48/icon-48.png",
+        "64": "/img/64/icon-64.png",
+        "96": "/img/96/icon-128.png",
+        "256": "/img/256/icon-256.png"
+    },
+    "developer": {
+        "name": "yunos",
+        "url": "http://www.yunos.com"
+    },
+    "launch_url": "http://10.230.203.99:8080/demo",
+    "locales": {
+       "en": {
+           "name": "TestApp",
+           "description": " test ",
+           "developer": {
+                "name": "NG-WebOS",
+                "url": "http://www.yunos.com/"
+           }
+       },
+       "zh-rCN": {
+           "name": "TestApp",
+           "description": " test ",
+           "developer": {
+                "name": "NG-WebOS",
+                "url": "http://www.yunos.com/"
+           }
+       },
+       "zh-rTW": {
+           "name": "TestApp",
+           "description": " webos ",
+           "developer": {
+                "name": "NG-WebOS",
+                "url": "http://www.yunos.com/"
+           }
+       }
+    },
+    "fullscreen": "true",
+    "platform": "phone",
+    "permissions": {
+            "geolocation": {},
+            "contacts": {},
+            "vibrate":{},
+            "power":{},
+            "telephony":{},
+            "packages":{}
+    }
+}

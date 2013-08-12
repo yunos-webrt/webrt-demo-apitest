@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta content="user-scalable=0,initial-scale=1.0,maximum-scale=1.0,width=device-width" name="viewport" />
+  <script type="text/javascript" src="goog/tool.js"></script>
+  <link href="main.css" rel="stylesheet">
+</head>
+<body>
+	<a href="../">Back</a>
+	<h1>Vibrate Test</h1>
+	<button id="VibrateNomal">VibrateNomal</button>
+	<button id="Vibrate_Nomal">Vibrate_Nomal</button>
+	<button id="NomalArray">NomalArray</button>
+	<div id="outPut"></div>
+	</body>
+<script type="text/javascript">
+var VibrateNomal = document.getElementById("VibrateNomal")
+  , Vibrate_Nomal = document.getElementById("Vibrate_Nomal")
+  , NomalArray = document.getElementById("NomalArray");
+VibrateNomal.addEventListener("click", function() {
+	navigator.tglVibrate(1000);
+});
+Vibrate_Nomal.addEventListener("click", function() {
+	navigator.tglVibrate([,5000]);
+});
+NomalArray.addEventListener("click", function() {
+	navigator.tglVibrate([2000,1000,1000,3000,500]);
+});
+
+</script>
+</html>
